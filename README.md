@@ -72,15 +72,15 @@ Recent search Page
 ## Research Topics
 
 * (3 points) dotenv
-  * use dotenv to store credentials for mongoDB URI
+  * use dotenv to store credentials for URI
 * (5 points) React
   * use React.js as the frontend framework
 * (5 points) OpenCurb API
   * use opencurb.nyc API to poll in NYC Street Parking Data
-* (8 points) ArcGIS API
-    * use ArcGIS API to build interactive maps
+* (1 points) Google Maps API
+    * Google Maps API to render map and fetch coordinate Data
 
-21 points total out of 8 required points 
+14 points total out of 8 required points 
 
 
 ## [Link to Initial Main Project File](app.mjs) 
