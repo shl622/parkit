@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start" : "nodemon app.mjs"
+    "start": "nodemon app.mjs"
   },
   "repository": {
     "type": "git",
@@ -18,12 +18,13 @@
   },
   "homepage": "https://github.com/nyu-csci-ua-0467-001-002-fall-2022/final-project-shl622#readme",
   "devDependencies": {
-    "eslint": "^8.26.0",
+    "eslint": "^8.27.0",
     "express": "^4.18.2",
     "mocha": "^10.1.0",
     "nodemon": "^2.0.20"
   },
   "dependencies": {
+    "D": "^1.0.0",
     "hbs": "^4.2.0"
   }
 }
