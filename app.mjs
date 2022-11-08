@@ -13,4 +13,7 @@ app.get('/',(req,res)=>{
     res.render('index');
 });
 
-app.listen(process.env.PORT || 3000,()=>{console.log("server listening")});
+app.listen(process.env.PORT || 3000,()=>{
+    const port = server.address().port;
+    console.log(`Server listening on port ${port}`);
+});
