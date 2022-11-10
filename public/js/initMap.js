@@ -1,5 +1,22 @@
 let map, infoWindow;
 
+async function saveSearch(search) {
+  try{
+    const response = await fetch("/api/save-search",{
+      method:"POST",
+      headers:{
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(search)
+    });
+    const data = await response.json();
+    console.log(data);
+  }catch(err){
+    console.log(err.message);
+  }
+
+};
+
 function initMap() {
     const myLatlng = { lat: 40.7323, lng: -73.9941 };
   
@@ -58,7 +75,7 @@ function initMap() {
     // more details for that place.
     searchBox.addListener("places_changed", () => {
       const places = searchBox.getPlaces();
-    console.log(input.value);
+    saveSearch({address:input.value, userlat: map.getCenter().lat(), userlng: map.getCenter().lng()})
       if (places.length == 0) {
         return;
       }

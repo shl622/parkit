@@ -11,19 +11,11 @@ const SearchSchema = new Schema({
     address : {type: String},
     time: {type: String},
     userid: {type : Schema.Types.ObjectId, ref: 'User'},
-    usercoordinate: {type: Number}
+    userlat: {type:Number},
+    userlng: {type:Number}
 })
 
 export const User = mongoose.model("User", UserSchema);
 export const Search = mongoose.model("Search", SearchSchema);
 
-async function connectDB(){
-   try{
-    await mongoose.connect(process.env.mongoURI);
-   }catch(err){
-    console.log(error.message);
-   }
-}
-
-connectDB();
 
