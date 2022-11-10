@@ -44,7 +44,8 @@ An Example Data:
   address: "address"
   time: "time-searched"
   userid: "username"
-  usercoordinate: "coordinate"
+  userlat: "user coordinate latitutde"
+  userlng: "user coordinate longitude"
 }
 ```
 
