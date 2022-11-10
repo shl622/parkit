@@ -1,5 +1,6 @@
-/*Mongoose Scehma*/
 import mongoose, { Schema } from 'mongoose';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 const UserSchema = new Schema({
   username: {type: String, required: true},
@@ -14,11 +15,11 @@ const SearchSchema = new Schema({
 })
 
 export const User = mongoose.model("User", UserSchema);
-export const Data = mongoose.model("Article", SearchSchema);
+export const Search = mongoose.model("Search", SearchSchema);
 
 async function connectDB(){
    try{
-    await mongoose.connect('mongodb://localhost');
+    await mongoose.connect(process.env.mongoURI);
    }catch(err){
     console.log(error.message);
    }
