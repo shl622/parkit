@@ -114,7 +114,7 @@ async function runApp(){
      app.listen(process.env.PORT || 3000,()=>{
         console.log(`Server listening`)});
     }catch(err){
-     console.log(error.message);
+     console.log(err.message);
     }
  }
  
