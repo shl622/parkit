@@ -1,4 +1,6 @@
-let map, infoWindow;
+//flag for bootup fetch request
+let hasinitSearch = false;
+let map, infoWindow, poly;
 
 async function saveSearch(search) {
   try{
@@ -18,27 +20,64 @@ async function saveSearch(search) {
 };
 
 function initMap() {
-  const myLatlng = { lat: 40.7323, lng: -73.9941 };
-
+  const myLatlng = { lat: 40.7309, lng: -73.9973 };
+  
   const map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 17,
+    zoom: 18,
     center: myLatlng,
     disableDefaultUI: true,
   });
+  //-------------------------------------------Draw the lines on map-------------------------------------------//
+  //--------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------------
+  //--------------------------------------------------------------------------------------
+  //References to drawing PolyLines on Google Maps
+  //https://developers.google.com/maps/documentation/javascript/shapes
+  
+  function drawData(data){
+    data.features.forEach(feature=>{
+      let path = feature.geometry.coordinates.map(geometry=>{     
+        return {lng: geometry[0], lat: geometry[1]};
+      })
+      const parkPath = new google.maps.Polyline({
+        path: path,
+        geodesic: true,
+        strokeColor: "#FF0000",
+        strokeOpacity: 1.0,
+        strokeWeight: 2,
+      });
+      parkPath.setMap(map);
+    })
+  }
 
   //-------------------------------------------Drag,Bounds Changed LatLng Returns-------------------------------------------
   //--------------------------------------------------------------------------------------
   //--------------------------------------------------------------------------------------
   //--------------------------------------------------------------------------------------
+  //References to using Google Maps Event Listeners
   //https://www.drupal.org/node/2512882
   //https://stackoverflow.com/questions/25539734/get-center-coords-after-drag-pan-finished
-  //References to using Google Maps Event Listeners
-
-  google.maps.event.addListener(map,'idle',function(){
+  //References to using Google Maps Radius Fetch
+  //https://stackoverflow.com/questions/3525670/radius-of-viewable-region-in-google-maps-v3
+  google.maps.event.addListener(map,'idle', async function(){
+    let bounds = map.getBounds();
+    let center = map.getCenter();
+    let ne = bounds.getNorthEast();
+    let sw = bounds.getSouthWest();
+    if(!hasinitSearch){
+      //default bootup fetch data
+      let data = await getCurbData(center.lat(),center.lng(),ne.lat(),ne.lng(),sw.lat(),sw.lng())
+      hasinitSearch = true;
+      drawData(data);
+    }
       if(!this.get('dragging') && this.get('oldCenter') && this.get('oldCenter')!==this.getCenter()) {
-          console.log("lat",map.getCenter().lat());
-          console.log("lng",map.getCenter().lng());
-          getCurbData(map.getCenter().lat(),map.getCenter().lng())
+          bounds = map.getBounds();
+          center = map.getCenter();
+          ne = bounds.getNorthEast();
+          sw = bounds.getSouthWest();
+          console.log("lat",center.lat());
+          console.log("lng",center.lng());
+          drawData(await getCurbData(center.lat(),center.lng(),ne.lat(),ne.lng(),sw.lat(),sw.lng()));
       }
       if(!this.get('dragging')){
           this.set('oldCenter',this.getCenter())
@@ -94,19 +133,10 @@ function initMap() {
         return;
       }
 
-      const icon = {
-        url: place.icon,
-        size: new google.maps.Size(71, 71),
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(25, 25),
-      };
-
       // Create a marker for each place.
       markers.push(
         new google.maps.Marker({
           map,
-          icon,
           title: place.name,
           position: place.geometry.location,
         })
