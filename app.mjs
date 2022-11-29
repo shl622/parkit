@@ -67,8 +67,9 @@ app.get('/login',(req,res)=>{
 
 app.get('/api/checkauth', (req,res)=>{
     if (req.session.user){
-        res.cookie("username",user.username,{maxAge:604800});
-        res.cookie("email",user.email,{maxAge:604800});
+        console.log("session un",req.session.user.username);
+        res.cookie("username",req.session.user.username,{maxAge:604800});
+        res.cookie("email",req.session.user.email,{maxAge:604800});
         res.json({success:true});
     }
     else{
