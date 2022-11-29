@@ -10,6 +10,7 @@ const parseCookie = () =>
     }, {});
 
 function main(){
+    console.log(document.cookie);
     if (!document.cookie){
         window.location.href="/signup"
         return;

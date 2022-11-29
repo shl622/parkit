@@ -20,6 +20,7 @@ app.use(session({
     secret: process.env.sessionSecret,
     resave: false,
     saveUninitialized: true,
+    maxAge: 7*24*60*60*1000 //week
 }))
 
 const loginMessages = {"PASSWORDS DO NOT MATCH": 'Incorrect password', "USER NOT FOUND": 'User doesn\'t exist'};
@@ -113,20 +114,25 @@ app.post('/api/save-search', async (req,res)=>{
 //Reference on uploading image files
 //https://blog.logrocket.com/multer-nodejs-express-upload-file/
 app.post('/api/save-feedback',upload.array("images"),async(req,res)=>{
+    if (!auth.loginSession){
+        res.status(401).json({success:false, message: "Not Authenticated"});
+        res.end();
+        return;
+    }
     try{
         const {category,comment} = req.body;
-        console.log(req.body);
-        console.log(req.files);
-        res.json({ message: "Successfully uploaded files" });
+        const filesMap = req.files.map((file)=>{
+            return file.filename;
+        });
+        console.log(req.session.user);
+        const feedback = await Feedback.create({category,comment,userid:req.session.user._id ,images:filesMap})
+        res.json({ data: feedback.toJSON(),success: true, message: "Successfully uploaded files" });
     }
     catch(err){
-        res.json(err.message);
+        res.status(500).json({success:false, error: "Please Login to Report Issues"});
         console.log(err.message);
     }
 });
-
-
-
 
 //----------------------------------------app listener --------------------------------------------------------//
 async function runApp(){

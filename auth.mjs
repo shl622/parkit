@@ -5,6 +5,7 @@ const startAuthenticatedSession = (req, user, cb) => {
     req.session.regenerate((err)=>{
       if(!err){
         req.session.user = {username: user.username, email: user.email,_id:user._id};
+        console.log(req.session);
       }else{
         console.log(err.message);
       }

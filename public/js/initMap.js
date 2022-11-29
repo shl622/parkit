@@ -139,12 +139,20 @@ function initMap() {
         for (let i=0; i<images.files.length; i++){
           formdata.append("images", images.files[i]);
         }
-        const response = await fetch("/api/save-feedback",{
-          method: "POST",
-          body: formdata,
-        });
-        const data = await response.json();
-        console.log(data);
+        try{
+          const response = await fetch("/api/save-feedback",{
+            method: "POST",
+            body: formdata,
+          });
+          const data = await response.json();
+          console.log(data);
+          if(!data.success){
+            alert(data.error);
+          }
+        }catch(err){
+          console.log(err.message);
+          alert(err.message);
+        }
       }
       feedbackformEl.onclick= () =>{
         const content = `
