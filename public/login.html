@@ -2,24 +2,33 @@
 <html lang="en">
 <head>
 	<link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/style.css"> 
+    <link rel="stylesheet" href="css/login.css"> 
 	<script defer src="js/forms.js"></script>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+	<title>Parkit-Sign in</title>
 </head>
 
 <body>
-	<form id="login-form">
-		<div>
-			<label for="username">Username:</label>
-			<input class="login-form-input" type="text" name="username" value="">
-		</div>
-		<div>
-			<label for="password">Password:</label> 
-			<input class="login-form-input" type="password" name="password" value="">
-		</div>
-		<div>
-			<input type="submit" value="Login">
-		</div>
-	</form>
+	<div class="login-form-container">
+		<form class="login-form" id="login-form">
+			<p class="form-header">Sign in</p>
+			<div>
+				<input class="login-form-input" type="text" name="username" placeholder="Username" value="">
+			</div>
+			<div>
+				<input class="login-form-input" type="password" name="password" placeholder="Password" value="">
+			</div>
+			<div>
+				<input class="submit" type="submit" value="Login">
+			</div>
+			<div>
+				<p class="signup-question">Don't have an account?</p>
+				<p class="signup"><a href="/signup">Sign up</a></p>
+			</div>
+		</form>
+	</div>
 </body>
 
 </html>

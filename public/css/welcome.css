@@ -1,0 +1,42 @@
+:root{
+    --bgcolor: mintcream;
+    --red: #B33951;
+    --green: #4F772D;
+    --purple: #8B80F9;
+    --brown: #54494B;
+}
+
+body{
+    font-size: 30px;
+    font-family:'Roboto',sans-serif;
+    color:var(--bgcolor);
+}
+
+.welcome-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content:center;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--green);
+}
+
+.welcomeMsg{
+    color:var(--bgcolor);
+    font-weight:bold;
+    word-spacing: 3px;
+    margin-bottom:1rem;
+}
+
+.gotomain{
+    font-weight:100;
+    border-radius: 5rem;
+    background-color: #54494B;
+    margin-top:2.5rem;
+    cursor:pointer;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top:10px;
+    padding-bottom: 10px;
+}

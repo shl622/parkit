@@ -2,24 +2,27 @@
 <html lang="en">
 <head>
 	<link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/style.css"> 
+    <link rel="stylesheet" href="css/signup.css"> 
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 	<script defer src="js/forms.js"> </script>
 </head>
 
 <body>
-	<form id="signup-form">
+	<div class="signup-form-container">
+	<form class="signup-form" id="signup-form">
+		<p class="form-header">Sign up</p>
 		<div>
-			<label for="username">Username:</label>
-			<input class="signup-form-input" type="text" name="username" value="">
+			<input class="signup-form-input" placeholder="username" type="text" name="username" value="">
 		</div>
 		<div>
-			<label for="email">Email:</label> 
-			<input class="signup-form-input" type="email" name="email" value="">
+			<input class="signup-form-input" placeholder="email" type="email" name="email" value="">
 		</div>
 		<div>
-			<label for="password">Password:</label>
-			<input class="signup-form-input" type="password" name="password" value="">
+			<input class="signup-form-input" placeholder="password"type="password" name="password" value="">
 		</div>
-		<div><input type="submit" value="Register"></div>
+		<div><input class="submit" type="submit" value="Register"></div>
 	</form>
+	</div>
 </body>
