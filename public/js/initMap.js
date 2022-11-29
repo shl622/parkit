@@ -26,6 +26,15 @@ function initMap() {
     zoom: 18,
     center: myLatlng,
     disableDefaultUI: true,
+    styles: [
+      {
+          featureType: "poi",
+          elementType: "labels",
+          stylers: [
+                { visibility: "off" }
+          ]
+      }
+  ]
   });
   //-------------------------------------------Draw the lines on map-------------------------------------------//
   //--------------------------------------------------------------------------------------
@@ -121,7 +130,6 @@ function initMap() {
         strokeWeight: 2,
       });
       parkPath.setMap(map);
-      let renderfeedback="";
       //base case content of infowindow
       let infoWindow = new google.maps.InfoWindow();
       let uniqueId = Date.now().toString(36) + Math.random().toString(36).substring(2);
@@ -166,9 +174,8 @@ function initMap() {
         <p class="parkingaddrule ${!additionalRule?"hidden":""}">${additionalRule}</p>
         <div class ="overlay-feedback">
         <br>
-        <p>Notice Issues? testing</p>
-        <br>
-        <button class="button overlay-button" onclick = "document.getElementById('feedbackform').classList.remove('hidden')">Click Here</button>
+        <p class="issue">Notice Issues? testing</p>
+        <button class="button overlay-button" onclick = "document.getElementById('feedbackform').classList.remove('hidden')">Report</button>
         </div>
         </div>
         `;
@@ -177,6 +184,14 @@ function initMap() {
       };
       
       document.body.append(feedbackformEl);
+      let lastStrokeWeight = null;
+      google.maps.event.addListener(parkPath, 'mouseover', function(event){
+        lastStrokeWeight = this.strokeWeight;
+        this.setOptions({strokeWeight: 5});
+      });
+      google.maps.event.addListener(parkPath, 'mouseout', function(event){
+        this.setOptions({strokeWeight: lastStrokeWeight || 2});
+      });
       google.maps.event.addListener(parkPath, 'click', function(event){
         const content = `
         <div class ="overlay">
@@ -189,9 +204,8 @@ function initMap() {
         <p class="parkingaddrule ${!additionalRule?"hidden":""}">${additionalRule}</p>
         <div class ="overlay-feedback">
         <br>
-        <p>Notice Issues?</p>
-        <br>
-        <button class="button overlay-button" onclick = "document.getElementById('feedbackform').classList.remove('hidden')">Click Here</button>
+        <p class="issue">Notice Issues?</p>
+        <button class="button overlay-button" onclick = "document.getElementById('feedbackform').classList.remove('hidden')">Report</button>
         </div>
         </div>
         `

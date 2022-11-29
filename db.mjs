@@ -4,7 +4,7 @@ dotenv.config();
 
 const UserSchema = new Schema({
   username: {type: String, required: true},
-  email : {type:String, required: true, unique: true},
+  email : {type:String},
   password: {type: String, required: true, unique: true},
 });
 

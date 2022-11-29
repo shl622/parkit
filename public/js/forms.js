@@ -23,7 +23,14 @@ function main(){
         });
         signupformEl.onsubmit = async (event)=>{
             event.preventDefault();
-            
+            if (signupformState.username.length < 6){
+                const usernameError = document.getElementById("usernameError");
+                usernameError.classList.remove("hidden");
+            }
+            if (signupformState.password.length < 6){
+                const passwordError = document.getElementById("passwordError");
+                passwordError.classList.remove("hidden");
+            }
             try{
                 const response = await fetch('/signup',{
                     method:"POST",
@@ -52,7 +59,7 @@ function main(){
         loginformEl.onsubmit = async (event) =>{
             event.preventDefault();
             try{
-            const response = await fetch('/login',{
+            const response = await fetch('/api/login',{
                 method:"POST",
                 headers: {
                     "Content-Type":"application/json",
@@ -63,6 +70,11 @@ function main(){
             console.log(data);
             if (data.success){
                 window.location.href = "/"
+            }
+            else{
+                const loginErrorEl= document.querySelector(".login-form-error");
+                loginErrorEl.classList.remove("hidden");
+                loginErrorEl.textContent= "Username or password is incorrect"
             }
             }catch(err){
                 console.log(err.message)

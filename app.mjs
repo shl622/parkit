@@ -23,12 +23,9 @@ app.use(session({
     maxAge: 7*24*60*60*1000 //week
 }))
 
-const loginMessages = {"PASSWORDS DO NOT MATCH": 'Incorrect password', "USER NOT FOUND": 'User doesn\'t exist'};
-const registrationMessages = {"USERNAME ALREADY EXISTS": "Username already exists", "USERNAME PASSWORD TOO SHORT": "Username or password is too short"};
 const upload = multer({ dest: "uploads/" });
 //----------------------------------------Signup and Login------------------------------------------------//
 app.get('/signup',(req,res)=>{
-    console.log("hit");
     res.sendFile(path.join(__dirname, '/public/signup.html'));
 });
 
@@ -39,6 +36,7 @@ app.post('/signup', (req,res)=>{
             if (!err){
                 res.cookie("username",newUser.username,{maxAge:604800});
                 res.cookie("email",newUser.email,{maxAge:604800});
+                res.cookie("auth","true",{maxAge:604800, httpOnly:true});
                 res.json({newUser,success: true});
             }else{
                 res.json({newUser, success: false});
@@ -58,7 +56,8 @@ app.get('/welcome',(req,res)=>{
 });
 
 app.get('/login',(req,res)=>{
-    if (auth.loginSession){
+    console.log("sesion",req.session);
+    if (auth.loginSession(req.session)){
        res.redirect('/');
     }
     else{
@@ -66,12 +65,25 @@ app.get('/login',(req,res)=>{
     }
 });
 
-app.post('/login', async (req,res)=>{
+app.get('/api/checkauth', (req,res)=>{
+    if (req.session.user){
+        res.cookie("username",user.username,{maxAge:604800});
+        res.cookie("email",user.email,{maxAge:604800});
+        res.json({success:true});
+    }
+    else{
+        res.json({succes:false});
+    }
+});
+
+
+app.post('/api/login', async (req,res)=>{
     function success(user) {
         auth.startAuthenticatedSession(req, user, (err)=>{
             if(!err){
                 res.cookie("username",user.username,{maxAge:604800});
                 res.cookie("email",user.email,{maxAge:604800});
+                res.cookie("auth","true",{maxAge:604800, httpOnly:true});
                 res.json({user, success:true});
             }else{
                 res.json({user, success:false});
@@ -85,12 +97,13 @@ app.post('/login', async (req,res)=>{
     await auth.login(req.body.username, req.body.password, error, success);
 });
 
-app.post('/logout', (req,res)=>{
+app.post('/api/logout', (req,res)=>{
     auth.endAuthenticatedSession(req,err=>{
-        console.log(err.message);
+        console.log(err);
         if (!err){
             res.clearCookie("username");
             res.clearCookie("email");
+            res.clearCookie("auth");
             res.json({success:true});
         }
     });
@@ -133,6 +146,17 @@ app.post('/api/save-feedback',upload.array("images"),async(req,res)=>{
         console.log(err.message);
     }
 });
+
+//----------------------------------------Recent Search --------------------------------------------------------//
+app.get('/recent',async(req,res)=>{
+    try{
+        res.sendFile(path.join(__dirname, '/public/recent.html'));
+    }catch(err){
+        res.status(500).json({success:false});
+        console.log(err.message);
+    }
+});
+
 
 //----------------------------------------app listener --------------------------------------------------------//
 async function runApp(){

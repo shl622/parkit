@@ -18,12 +18,12 @@ const endAuthenticatedSession = (req,cb) => {
     cb();
   }
   else{
-    req.sesion.destroy((err)=> {cb(err);})
+    req.session.destroy((err)=> {cb(err);})
   }
 };
 
 const register = async (username, email, password, errorCallback, successCallback) => {
-if (username.length < 8 || password.length < 8){
+if (username.length < 6 || password.length < 6){
     console.log("USERNAME PASSWORD TOO SHORT");
     errorCallback({message: "USERNAME PASSWORD TOO SHORT"});
     return;
@@ -75,8 +75,8 @@ const login = async (username, password, errorCallback, successCallback) => {
   };
 
 //check session for login
-function loginSession(){
-  if (req.session.user){
+function loginSession(session){
+  if (session.user){
     return true;
   }
   else{

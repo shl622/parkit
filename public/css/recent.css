@@ -1,0 +1,20 @@
+:root{
+    --bgcolor:#f5fffa;
+    --red: #B33951;
+    --green: #223127;
+    --purple: #8B80F9;
+    --lgreen: #63A088;
+}
+
+body{
+    font-size: 24px;
+    font-family:'Roboto',sans-serif;
+}
+
+
+.recent-search-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}

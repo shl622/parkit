@@ -1,10 +1,11 @@
 :root{
     --bgcolor:mintcream;
     --red: #B33951;
-    --green: #4F772D;
+    --green: #223127;
     --purple: #8B80F9;
-    --brown: #54494B;
-  }
+    --lgreen: #63A088;
+}
+
 
 body{
   font-size: 24px;
@@ -18,18 +19,18 @@ body{
     justify-content: center;
     z-index:1000;
     background-color: var(--green);
+    min-height: 100vh;
     top:0;
     left:0;
-    position:fixed;
     width:100vw;
-    height: 100vh;
 }
 
 .login-form{
+    min-height: 35rem;
     display:flex;
     flex-direction:column;
     align-items: center;
-    background-color: var(--bgcolor);
+    background-color: mintcream;
     width:40%;
     height:45%;
     border-radius: 1rem;
@@ -39,7 +40,7 @@ body{
 
 .form-header{
     font-size:2rem;
-    color: var(--green);
+    color: var(--lgreen);
     font-weight: bold;
     align-items:center;
     margin-top: 1.5rem;
@@ -76,10 +77,14 @@ body{
     text-align: center;
 }
 
+.login-form-input::placeholder{
+    color: rgb(150, 150, 150);
+}
+
 .submit{
     cursor:pointer;
     border-radius:5rem;
-    background-color: var(--green);
+    background-color: var(--lgreen);
     color:var(--bgcolor);
     font-size:1rem;
     padding-left:40px;
@@ -96,9 +101,23 @@ body{
 }
 .signup{
     margin-top:3px;
+    font-weight:bold;
     font-size: 0.88rem;
 }
 
-.login-form-username:focus, .login-form-pw:focus{
+.login-form-input:focus{
     border:2px solid rgba(0,0,0,0.14) !important;
+}
+
+.login-form-error{
+    margin-bottom:10px;
+    margin-top:-25px;
+    text-align: center;
+    color: var(--red);
+    font-style:italic;
+    font-size: 0.88rem;
+}
+
+.hidden{
+    display:none;
 }

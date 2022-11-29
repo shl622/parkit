@@ -14,13 +14,15 @@
 	<form class="signup-form" id="signup-form">
 		<p class="form-header">Sign up</p>
 		<div>
-			<input class="signup-form-input" placeholder="username" type="text" name="username" value="">
+			<input class="signup-form-input" placeholder="Username" type="text" name="username" value="">
+			<p id="usernameError" class="signup-form-error hidden">Username must be at least 6 characters.</p>
 		</div>
 		<div>
-			<input class="signup-form-input" placeholder="email" type="email" name="email" value="">
+			<input class="signup-form-input" placeholder="Email" type="email" name="email" value="">
 		</div>
 		<div>
-			<input class="signup-form-input" placeholder="password"type="password" name="password" value="">
+			<input class="signup-form-input" placeholder="Password"type="password" name="password" value="">
+			<p id="passwordError" class="signup-form-error hidden">Password must be at least 6 characters.</p>
 		</div>
 		<div><input class="submit" type="submit" value="Register"></div>
 	</form>

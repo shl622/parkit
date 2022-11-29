@@ -1,9 +1,9 @@
 :root{
-    --bgcolor: mintcream;
+    --bgcolor:mintcream;
     --red: #B33951;
-    --green: #4F772D;
+    --green: #223127;
     --purple: #8B80F9;
-    --brown: #54494B;
+    --lgreen: #63A088;
 }
 
 body{
@@ -32,7 +32,7 @@ body{
 .gotomain{
     font-weight:100;
     border-radius: 5rem;
-    background-color: #54494B;
+    background-color: var(--lgreen);
     margin-top:2.5rem;
     cursor:pointer;
     padding-left: 40px;
