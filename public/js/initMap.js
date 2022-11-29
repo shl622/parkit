@@ -33,21 +33,168 @@ function initMap() {
   //--------------------------------------------------------------------------------------
   //References to drawing PolyLines on Google Maps
   //https://developers.google.com/maps/documentation/javascript/shapes
+  //References to infowindow
+  //https://developers.google.com/maps/documentation/javascript/infowindows
   
+  //boolean function to see if current time is within the bounds of the parking rule
+  function checkTimeBounds(bounds,checkTime){
+    const boundsObj = bounds.map(bound=>{
+      const lower = parseInt(bound.slice(0,2));
+      const minutes = parseInt(bound.slice(3,5));
+      if (bound.includes("PM")){
+        return {hour: lower+12, minutes};
+      }
+      if (bound.includes("12:00AM")){
+        return {hour: lower-12, minutes};
+      }
+      return {hour: lower, minutes}
+    });
+    // console.log(boundsObj);
+    // console.log("checkTime",checkTime);
+    //check if current time is within the bounds inclusive (hour+minutes)
+    //check if current time is within the bounds exclusive (hour)
+    //check the corner case where parking is available for 24hr
+    //***check weird corner cases*** 
+    //---unit test these---
+    if (boundsObj[0].hour===boundsObj[1].hour){
+      if (checkTime.minutes>=boundsObj[0].minutes){
+        return true;
+      }
+    }
+    if (checkTime.hour>boundsObj[0].hour && checkTime.hour<boundsObj[1].hour){
+      return true;
+    }
+    if (checkTime.hour===boundsObj[0].hour){
+      if (checkTime.minutes>=boundsObj[0].minutes){
+        return true;
+      }
+    }
+    if (checkTime.hour===boundsObj[1].hour){
+      if (checkTime.minutes<=boundsObj[1].minutes){
+        return true;
+      }
+    }
+  }
+
+  //function to check the status of each street parking rules
+  //use regexr: https://regexr.com/ to select time from fetched data
+  function checkStatus(status){
+    //base case when no parking is allowed anytime
+    if (status==="No Parking Anytime"){
+      return "red";
+    }
+    if (status ==="Parking Permitted All Week"){
+      return "green";
+    }
+    const timenow = new Date();
+    const regex = /\d{2}:\d{2}\w{2}/g;
+    const timeBound = status.match(regex);
+    const checkTime = {hour: timenow.getHours(), minutes: timenow.getMinutes()}; 
+    const withinBounds = checkTimeBounds(timeBound,checkTime);
+    // console.log("withinBounds?",withinBounds);
+    if (status.includes("No Parking From")){
+      if (!withinBounds){
+        return "grey";
+      }
+    }
+    else{
+      if (withinBounds){
+        return "green";
+      }
+        return "red";
+    }
+  }
+
   function drawData(data){
-    data.features.forEach(feature=>{
+    data.features.forEach((feature,index)=>{
+      let parkingStatus = feature.properties.rule_simplified;
+      let additionalRule = feature.properties.addtl_info_parking_rule;
+      const color = checkStatus(parkingStatus);
       let path = feature.geometry.coordinates.map(geometry=>{     
         return {lng: geometry[0], lat: geometry[1]};
-      })
+      });
       const parkPath = new google.maps.Polyline({
         path: path,
         geodesic: true,
-        strokeColor: "#FF0000",
+        strokeColor: color,
         strokeOpacity: 1.0,
         strokeWeight: 2,
       });
       parkPath.setMap(map);
-    })
+      let renderfeedback="";
+      //base case content of infowindow
+      let infoWindow = new google.maps.InfoWindow();
+      let uniqueId = Date.now().toString(36) + Math.random().toString(36).substring(2);
+      const feedbackformid= `feedbackform-${uniqueId}`;
+      const feedbackformEl = document.getElementById("feedbackform");
+      //once feedback changed
+      feedbackformEl.onsubmit = async (event) =>{
+        event.preventDefault();
+        const category = document.getElementById("feedbackform-category");
+        const comment = document.getElementById("feedbackform-comment");
+        const images = document.getElementById("feedbackform-image");
+        const formdata = new FormData();
+        formdata.append("category", category.value);
+        formdata.append("comment", comment.value);
+        for (let i=0; i<images.files.length; i++){
+          formdata.append("images", images.files[i]);
+        }
+        const response = await fetch("/api/save-feedback",{
+          method: "POST",
+          body: formdata,
+        });
+        const data = await response.json();
+        console.log(data);
+      }
+      feedbackformEl.onclick= () =>{
+        const content = `
+        <div class ="overlay">
+        <header>
+        <h3 class="header">Parking Information</h3>
+        <br>
+        </header>
+        <p class="parkingstatus-${color}">${parkingStatus}</p>
+        <br>
+        <p class="parkingaddrule ${!additionalRule?"hidden":""}">${additionalRule}</p>
+        <div class ="overlay-feedback">
+        <br>
+        <p>Notice Issues? testing</p>
+        <br>
+        <button class="button overlay-button" onclick = "document.getElementById('feedbackform').classList.remove('hidden')">Click Here</button>
+        </div>
+        </div>
+        `;
+        infoWindow.setContent(content);
+        // feedbackformEl.classList.add("hidden"); 
+      };
+      
+      document.body.append(feedbackformEl);
+      google.maps.event.addListener(parkPath, 'click', function(event){
+        const content = `
+        <div class ="overlay">
+        <header>
+        <h3 class="header">Parking Information</h3>
+        <br>
+        </header>
+        <p class="parkingstatus-${color}">${parkingStatus}</p>
+        <br>
+        <p class="parkingaddrule ${!additionalRule?"hidden":""}">${additionalRule}</p>
+        <div class ="overlay-feedback">
+        <br>
+        <p>Notice Issues?</p>
+        <br>
+        <button class="button overlay-button" onclick = "document.getElementById('feedbackform').classList.remove('hidden')">Click Here</button>
+        </div>
+        </div>
+        `
+        infoWindow.setContent(content);
+        infoWindow.setPosition(event.latLng);
+        infoWindow.open(map); 
+      });
+      google.maps.event.addListener(map,"click",function(event){
+        infoWindow.close();
+      });
+    });
   }
 
   //-------------------------------------------Drag,Bounds Changed LatLng Returns-------------------------------------------

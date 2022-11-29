@@ -1,11 +1,12 @@
 import express from 'express';
 import path from 'path';
-import { User, Search} from './db.mjs';
+import { User, Search, Feedback} from './db.mjs';
 import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
 import * as auth from './auth.mjs'
 import session from 'express-session';
 import * as dotenv from 'dotenv';
+import multer from 'multer';
 
 dotenv.config();
 const app = express();
@@ -13,6 +14,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(session({
     secret: process.env.sessionSecret,
@@ -22,7 +24,7 @@ app.use(session({
 
 const loginMessages = {"PASSWORDS DO NOT MATCH": 'Incorrect password', "USER NOT FOUND": 'User doesn\'t exist'};
 const registrationMessages = {"USERNAME ALREADY EXISTS": "Username already exists", "USERNAME PASSWORD TOO SHORT": "Username or password is too short"};
-
+const upload = multer({ dest: "uploads/" });
 //----------------------------------------Signup and Login------------------------------------------------//
 app.get('/signup',(req,res)=>{
     console.log("hit");
@@ -94,7 +96,7 @@ app.post('/logout', (req,res)=>{
 });
 //----------------------------------------save user search on DB------------------------------------------------//
 app.post('/api/save-search', async (req,res)=>{
-    const {address,userlat,userlng} = req.body
+    const {address,userlat,userlng} = req.body;
     try {
     const time = new Date().toISOString();
     const userid = "507f1f77bcf86cd799439011";
@@ -106,6 +108,25 @@ app.post('/api/save-search', async (req,res)=>{
     console.log(err.message);
     }
 });
+
+//----------------------------------------feedback save on DB --------------------------------------------------------//
+//Reference on uploading image files
+//https://blog.logrocket.com/multer-nodejs-express-upload-file/
+app.post('/api/save-feedback',upload.array("images"),async(req,res)=>{
+    try{
+        const {category,comment} = req.body;
+        console.log(req.body);
+        console.log(req.files);
+        res.json({ message: "Successfully uploaded files" });
+    }
+    catch(err){
+        res.json(err.message);
+        console.log(err.message);
+    }
+});
+
+
+
 
 //----------------------------------------app listener --------------------------------------------------------//
 async function runApp(){

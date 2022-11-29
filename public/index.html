@@ -137,6 +137,21 @@
             <div id = "map-container">
                 <div id="map"></div>
             </div>
+            <div id="feedbackform" class="feedbackform hidden">
+                <div class="feedbackform-inner">
+                    <form class="feedbackform-form">
+                    <label>Category</label>
+                    <select name="category" id="feedbackform-category">
+                      <option value="outdated">Outdated info</option>
+                      <option value="event">Unexpected closing</option>
+                    </select>
+                    <label>Comments:</label>
+                    <textarea id="feedbackform-comment" name="comment" placeholder="Comment here..."></textarea>
+                    <input id="feedbackform-image" name="image" type="file" multiple accept="image/*"/>
+                    <button type="submit">Submit</button>
+                    </form>
+                    </div>
+            </div>
         </div>
        
         <script src="js/mapData.js"></script>
