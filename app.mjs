@@ -60,7 +60,6 @@ app.get('/welcome',(req,res)=>{
 app.get('/login',(req,res)=>{
     console.log("sesion",req.session);
     if (auth.loginSession(req.session)){
-        //might be problem so i added 
         res.cookie("username",req.session.user.username,{maxAge:604800});
         res.cookie("email",req.session.user.email,{maxAge:604800});
         res.redirect('/'); //might be problem
@@ -85,6 +84,7 @@ app.get('/api/checkauth', (req,res)=>{
 
 app.post('/api/login', async (req,res)=>{
     function success(user) {
+        console.log("user",user);
         auth.startAuthenticatedSession(req, user, (err)=>{
             if(!err){
                 res.cookie("username",user.username,{maxAge:604800});
@@ -117,9 +117,14 @@ app.post('/api/logout', (req,res)=>{
 //----------------------------------------save user search on DB------------------------------------------------//
 app.post('/api/save-search', async (req,res)=>{
     const {address,userlat,userlng} = req.body;
+    if (!req.session.user){
+        res.status(401).json({success:false, error: "Not logged in"});
+        res.end();
+        return;
+    }
     try {
     const time = new Date().toISOString();
-    const userid = "507f1f77bcf86cd799439011";
+    const userid = req.session.user._id;
     const recentSearch = await Search.create({address,time,userid,userlat,userlng});
     res.status(200).json({recentSearch,success:true});
     }
@@ -154,13 +159,21 @@ app.post('/api/save-feedback',upload.array("images"),async(req,res)=>{
 });
 
 //----------------------------------------Recent Search --------------------------------------------------------//
-app.get('/recent',async(req,res)=>{
+app.get('/recent', (req,res)=>{
+    res.sendFile(path.join(__dirname, '/public/recent.html'));
+});
+app.get('/api/recent',async(req,res)=>{
+    if (!req.session.user){
+        res.status(401).json({success:false, message:"Not logged in", data: []});
+        res.end();
+        return;
+    }
     try{
-        const recentSearch = await Search.findOne({"_id":req.session.user._id});
-        res.sendFile(path.join(__dirname, '/public/recent.html'));
-        // res.json({success:true});
+        const recentSearch = await Search.find({"userid": req.session.user._id}).sort({time: -1}).limit(3);
+        console.log("searches",recentSearch);
+        res.status(200).json({success:true, data: recentSearch})
     }catch(err){
-        res.status(500).json({success:false});
+        res.status(500).json({success:false, data: []});
         console.log(err.message);
     }   
 });

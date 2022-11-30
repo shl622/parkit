@@ -37,8 +37,8 @@ try {
     }
     const hash = await bcrypt.hash(password, 10);
     User.create({username,email,password:hash}).then(newUser=>{
-    const {email,username} = newUser;
-    successCallback({email,username});
+    const {email,username,_id} = newUser;
+    successCallback({email,username,_id:_id.toString()});
     }).catch(error=>{
     console.log("error:",error)
     console.log("DOCUMENT SAVE ERROR");
@@ -66,7 +66,7 @@ const login = async (username, password, errorCallback, successCallback) => {
         errorCallback({message:"USER OR PASSWORD NOT FOUND"});
         return;
       }
-      successCallback(user);
+      successCallback({...user.toJSON(), _id:user._id.toString()});
     } catch(err){
       console.log(err.message);
       errorCallback({message: err.message});

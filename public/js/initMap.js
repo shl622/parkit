@@ -135,6 +135,9 @@ function initMap() {
       let uniqueId = Date.now().toString(36) + Math.random().toString(36).substring(2);
       const feedbackformid= `feedbackform-${uniqueId}`;
       const feedbackformEl = document.getElementById("feedbackform");
+      const feedbackforminnerEl = document.querySelector(".feedbackform-inner");
+      const feedbackformaddressEl = document.getElementById("feedbackform-address");
+      feedbackformaddressEl.textContent = `${feature.properties.main_street}/${feature.properties.cross_streets}`
       //once feedback changed
       feedbackformEl.onsubmit = async (event) =>{
         event.preventDefault();
@@ -157,13 +160,7 @@ function initMap() {
           if(!data.success){
             alert(data.error);
           }
-        }catch(err){
-          console.log(err.message);
-          alert(err.message);
-        }
-      }
-      feedbackformEl.onclick= () =>{
-        const content = `
+          const content = `
         <div class ="overlay">
         <header>
         <h3 class="header">Parking Information</h3>
@@ -180,7 +177,18 @@ function initMap() {
         </div>
         `;
         infoWindow.setContent(content);
-        // feedbackformEl.classList.add("hidden"); 
+        }catch(err){
+          console.log(err.message);
+          alert(err.message);
+        }
+      }
+      
+      feedbackforminnerEl.onclick = (event) =>{
+        event.stopPropagation();
+      }
+
+      feedbackformEl.onclick= () =>{
+       feedbackformEl.classList.add("hidden"); 
       };
       
       document.body.append(feedbackformEl);
@@ -282,10 +290,11 @@ function initMap() {
   // more details for that place.
   searchBox.addListener("places_changed", () => {
     const places = searchBox.getPlaces();
-    saveSearch({address:input.value, userlat: map.getCenter().lat(), userlng: map.getCenter().lng()})
+    //console.log("places",places);
     if (places.length == 0) {
       return;
     }
+    const firstplace = [places[0]];
 
     // Clear out the old markers.
     markers.forEach((marker) => {
@@ -295,8 +304,12 @@ function initMap() {
 
     // For each place, get the icon, name and location.
     const bounds = new google.maps.LatLngBounds();
+    console.log("bounds",bounds);
 
-    places.forEach((place) => {
+    firstplace.forEach((place) => {
+      saveSearch({address:input.value, userlat: place.geometry.location.lat(), userlng: place.geometry.location.lng()});
+      console.log("searchlat",place.geometry.location.lat());
+      console.log("searchlng",place.geometry.location.lng());
       if (!place.geometry || !place.geometry.location) {
         console.log("Returned place contains no geometry");
         return;

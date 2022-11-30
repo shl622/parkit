@@ -24,7 +24,7 @@ async function main(){
     if(authData.success){
         authState.isAuth = true;
         if (parseCookie().username){
-            authState.username = parseCookie.username;
+            authState.username = parseCookie().username;
         } 
         console.log(hiddenMenu);
         console.log(authState);
