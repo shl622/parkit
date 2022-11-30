@@ -1,16 +1,16 @@
 document.addEventListener("DOMContentLoaded",main);
 
-const parseCookie = () =>{
-    if (!document.cookie){
-        return;
-    }
+const parseCookie = () =>
+    // if (!document.cookie){
+    //     return;
+    // }
     document.cookie
     .split(';')
     .map(v => v.split('='))
     .reduce((acc, v) => {
         acc[decodeURIComponent(v[0].trim())] = decodeURIComponent(v[1].trim());
         return acc;
-    }, {})};
+    }, {});
 
 async function main(){
     const authResponse = await fetch("/api/checkauth");
@@ -20,12 +20,11 @@ async function main(){
     const authState = {
         isAuth: false,
         username: null
-    }
+    };
     if(authData.success){
         authState.isAuth = true;
-        const username = parseCookie().username;
-        if (username){
-            authState.username = username;
+        if (parseCookie().username){
+            authState.username = parseCookie.username;
         } 
         console.log(hiddenMenu);
         console.log(authState);

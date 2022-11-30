@@ -37,6 +37,9 @@ function main(){
                     headers: {
                         "Content-Type":"application/json",
                     },
+                    //cors--check later
+                    withCredentials: true,
+                    crednetials: 'include',
                     body: JSON.stringify(signupformState)
                 });
                 const data = await response.json();
@@ -61,9 +64,13 @@ function main(){
             try{
             const response = await fetch('/api/login',{
                 method:"POST",
+                credentials: "include",
                 headers: {
                     "Content-Type":"application/json",
                 },
+                //cors--check later
+                withCredentials: true,
+                crednetials: 'include',
                 body: JSON.stringify(loginformState)
             });
             const data = await response.json();

@@ -46,7 +46,7 @@ function initMap() {
   //https://developers.google.com/maps/documentation/javascript/infowindows
   
   //boolean function to see if current time is within the bounds of the parking rule
-  function checkTimeBounds(bounds,checkTime){
+   function checkTimeBounds(bounds,checkTime){
     const boundsObj = bounds.map(bound=>{
       const lower = parseInt(bound.slice(0,2));
       const minutes = parseInt(bound.slice(3,5));

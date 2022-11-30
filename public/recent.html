@@ -5,8 +5,8 @@
     <link rel="stylesheet" href="css/recent.css"> 
     <link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 	<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-    <script src="js/recentSearch.js"></script>
 </head>
 
 <body>
@@ -15,8 +15,19 @@
             <p class="title">Recent Searches</p>
         </div>
         <div class="recent-search">
+            <div id="map-container">
+                <div id="map1">
+                </div>
+                <div id="map2">
+                </div>
+                <div id="map3">
+                </div>
+            </div>
         </div>
     </div>
 </body>
 
+<script src="js/mapData.js"></script>
+<script src="js/recentSearchMap.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBufpHYOr7xVABbwLlfDQ9mFkvSQVPbqbs&callback=initializeMap&libraries=places,geometry"></script>
 </html>

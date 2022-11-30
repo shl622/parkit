@@ -12,9 +12,41 @@ body{
 }
 
 
-.recent-search-container{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
+#map-container{
+    height:6000px;
+  }
+  
+#map1{
+    width:500px;
+    height: 150px;
+    margin-bottom: 100px;
 }
+
+#map2{
+    width:500px;
+    height: 150px;
+    margin-bottom: 100px;
+}
+#map3{
+    width:500px;
+    height: 150px;
+    margin-bottom: 100px;
+}
+
+.header{
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: var(--purple);
+  }
+
+.parkingstatus-red{
+    color: red;
+  }
+  
+  .parkingstatus-grey{
+    color: rgb(122, 120, 120);
+  }
+  
+  .parkingstatus-green{
+    color: green;
+  }

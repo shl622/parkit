@@ -7,6 +7,7 @@ import * as auth from './auth.mjs'
 import session from 'express-session';
 import * as dotenv from 'dotenv';
 import multer from 'multer';
+import cors from 'cors'; //cors--check later
 
 dotenv.config();
 const app = express();
@@ -16,6 +17,7 @@ const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cors({ origin: true, credentials: true })); //cors--check later
 app.use(session({
     secret: process.env.sessionSecret,
     resave: false,
@@ -58,7 +60,10 @@ app.get('/welcome',(req,res)=>{
 app.get('/login',(req,res)=>{
     console.log("sesion",req.session);
     if (auth.loginSession(req.session)){
-       res.redirect('/');
+        //might be problem so i added 
+        res.cookie("username",req.session.user.username,{maxAge:604800});
+        res.cookie("email",req.session.user.email,{maxAge:604800});
+        res.redirect('/'); //might be problem
     }
     else{
         res.sendFile(path.join(__dirname, '/public/login.html'));
@@ -67,7 +72,7 @@ app.get('/login',(req,res)=>{
 
 app.get('/api/checkauth', (req,res)=>{
     if (req.session.user){
-        console.log("session un",req.session.user.username);
+        //console.log("session un",req.session.user.username);
         res.cookie("username",req.session.user.username,{maxAge:604800});
         res.cookie("email",req.session.user.email,{maxAge:604800});
         res.json({success:true});
@@ -151,11 +156,13 @@ app.post('/api/save-feedback',upload.array("images"),async(req,res)=>{
 //----------------------------------------Recent Search --------------------------------------------------------//
 app.get('/recent',async(req,res)=>{
     try{
+        const recentSearch = await Search.findOne({"_id":req.session.user._id});
         res.sendFile(path.join(__dirname, '/public/recent.html'));
+        // res.json({success:true});
     }catch(err){
         res.status(500).json({success:false});
         console.log(err.message);
-    }
+    }   
 });
 
 
