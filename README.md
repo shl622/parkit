@@ -6,11 +6,16 @@ Parking in NYC can get very expensive and finding a street parking spot is diffi
 
 Parkit! is a web app that will allow users to search street parking rules for each street. Users can register and login to save recent searches as well as search parking rules for any street nearby or far in Manhattan, NYC. 
 
+** The parking regulation data is currently (December 2022~) strictly limited to Manhattan area and will not display any regulations outside this area.
+
 
 ## Deployment
 The application was deployed via Heroku- visit [here](https://parkitapp.herokuapp.com/)<br/>
 
-## Build Notes 
+## Build Notes
+<details>
+<summary>Click here</summary>
+
 ### Milestone 1 (10/25/22)
 Successful sketch/brainstorm
 ### Milestone 2 (11/18/22)
@@ -30,17 +35,28 @@ Important note regarding change in research topics: <br>
 3. Need to implement front-end for displaying API data
 4. Basic UI has been implemented for homepage.
 5. Added CSS reset to every page to hide the HTML default designs.
+
+### Milestone 4 (Final ~12/02/22)
+1. Using Google Maps API shapes:polyline, was able to draw lines based on the lat.lng geometries pulled from opencurb api and display different colors for the current parking status.
+2. All css elements have been designed with colors within a color palette (look in :root)
+3. Able to save Search History of each user and display up to three searches with new instances of google maps for each history
+4. Enabled guest mode as default and can log in to use more functionality such as viewing Search History and reporting issues
+5. Sign up form displays correct error messages to the user
+
+</details>
+
 ## Data Model
 
-The application will store Users and Passwords and a list of data per user.</br>
-The data will store the accessed address, time, username and user location.
+The application will store Users, emails and Passwords.</br>
+The feedback data will store the userid of submission and contents. </br>
+The search data will store the accessed address, time, userid and user coordinates.
 
 An Example User:
 
 ```javascript
 {
   username: "username"
-  email : "email"
+  email: "email"
   password: "password"
 }
 ```
@@ -62,7 +78,7 @@ An Example Feedback:
 {
   userid: "username._id"
   category: "category"
-  comment : "comment"
+  comment: "comment"
   time: "timestamp"
 }
 ```
@@ -116,13 +132,13 @@ Recent search Page
     `http://www.opencurb.nyc/search.php?coord=${lat},${long}&v_type=PASSENGER&a_type=PARK&meter=2&radius=${radius}&StartDate=${fulldate}&StartTime=06:25&EndDate=${fulldate}&EndTime=07:25&action_allowed=1`
   * v_type limited to PASSENGER as app intended for passenger vehicles only (excluding commercial or load/pickups)
   * radius maintained at 50 meters for standard and loads flexibly to changing parameters
-* (3 points) Google Maps API
+* (5 points) Google Maps API
     * Google Maps API to render map and fetch coordinate Data
     * (~11/08/22) Heavily Reviewed [official document and tutorials](https://developers.google.com/maps/documentation/javascript/overview)
     * Need to implement Maps to keep radius in 50 meters to coordinate with Opencurb API data, which has strict base of 50 meter radius for polling in parking data.
     
 
-11 points total out of 8 required points 
+13 points total out of 8 required points 
 
 
 ## [Link to Initial Main Project File](app.mjs) 
@@ -134,9 +150,15 @@ Recent search Page
 3. [CSS Reset Cleanup](https://github.com/elad2412/the-new-css-reset)
 
 
+## Ending Notes
+<details>
+<summary>Click here</summary>
+
 ## Possible Future Improvements
 
 1. More Transparent Data : Opencurb API does not provide the most straightforward documentation for using its data and their data is pulled from several sources, hence it is hard to check the validity unless user himself/herself checks and reports
 2. User-shareable Data: Currently allows user to report issues via form and stores in database, but I can't target the exact polyline of the map as it keeps overwriting data every time an event such as zoom-in, zoom-out happens so rendering this user-supplied data on each infoWindow is arbitrary at the moment. Current implementation serves functionality for developers as the stored data has GeoCode.
 3. Front End Visuals : Overall design and visuals could be improved and code can be refactored to be clearer if using a front-end library
 4. GPS : Could use GPS or location services to locate user on the map and center the map based on user's location. Currently defaulted to NYU/Washington Square Park area
+
+</details>
