@@ -30,7 +30,7 @@ async function main(){
         <h2 id="menu-welcome"> Welcome  ${authState.username} </h2>
         </div>
         <div class="recent-searches">
-           <a href="/recent"><h5>Recent Searches</h5></a>
+           <a href="/recent"><h5>Search History</h5></a>
         </div>
         <div class="logout">
             <h5>Logout</h5>

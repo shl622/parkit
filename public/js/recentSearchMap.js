@@ -112,11 +112,6 @@ function drawData(data,mapindex){
       <p class="parkingstatus-${color}">${parkingStatus}</p>
       <br>
       <p class="parkingaddrule ${!additionalRule?"hidden":""}">${additionalRule}</p>
-      <div class ="overlay-feedback">
-      <br>
-      <p class="issue">Notice Issues?</p>
-      <button class="button overlay-button" onclick = "document.getElementById('feedbackform').classList.remove('hidden')">Report</button>
-      </div>
       </div>
       `
       infoWindow.setContent(content);
@@ -144,12 +139,12 @@ async function initializeMap(){
         const searchContainerEl = document.getElementById("map-container");
         data.forEach((search,index)=>{
             rendermap(search.userlat,search.userlng,index);
-            const searchEl = document.createElement("div");
+            const searchEl = document.getElementById(`search${index+1}`);
             searchEl.innerHTML=`
-            <p>${search.address}</p>
-            <p>${search.time}</p>
+            <p id="search-address">${search.address}</p>
+            <p id="timestamp">${search.time}</p>
             `
-            searchContainerEl.append(searchEl);
+            // searchContainerEl.append(searchEl);
         });
     }    
 }

@@ -7,30 +7,73 @@
 }
 
 body{
+    background-color: var(--bgcolor);
     font-size: 24px;
     font-family:'Roboto',sans-serif;
 }
 
+.app-header{
+  width:100%;
+  display:flex;
+  align-items: center;
+  padding: 0 10px;
+  background-color: var(--bgcolor);
+}
+.app-header-left{
+  display:flex;
+  align-items: center;
+}
 
-#map-container{
-    height:6000px;
-  }
-  
+.logo{
+  width: 75px;
+  height: 75px;
+  cursor:pointer;
+}
+
+.logo svg{
+  width:100%;
+  height:100%;
+}
+
+.title{
+  margin-left:15px;
+
+}
+
+.recent-description{
+  background-color: var(--lgreen);
+  padding-top: 10px;
+  padding-bottom: 25px;
+  box-shadow:0px 3px 15px rgba(0, 0, 0, 0.3);
+}
+
 #map1{
-    width:500px;
-    height: 150px;
-    margin-bottom: 100px;
+    min-width:500px;
+    min-height:350px;
+    margin-bottom: 8%;
 }
 
 #map2{
-    width:500px;
-    height: 150px;
-    margin-bottom: 100px;
+    min-width:500px;
+    min-height: 350px;
+    margin-bottom: 8%;
 }
 #map3{
-    width:500px;
-    height: 150px;
-    margin-bottom: 100px;
+    min-width:500px;
+    min-height: 350px;
+    margin-bottom: 8%;
+}
+
+#timestamp{
+  margin-top:5px;
+  margin-left:15px;
+  font-weight: 0.8rem;
+  font-size: 0.8rem;
+}
+
+#search-address{
+  margin-left:15px;
+  color: var(--bgcolor);
 }
 
 .header{
@@ -43,10 +86,10 @@ body{
     color: red;
   }
   
-  .parkingstatus-grey{
-    color: rgb(122, 120, 120);
-  }
-  
-  .parkingstatus-green{
-    color: green;
-  }
+.parkingstatus-grey{
+  color: rgb(122, 120, 120);
+}
+
+.parkingstatus-green{
+  color: green;
+}
