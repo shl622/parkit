@@ -6,7 +6,6 @@ import mongoose from 'mongoose';
 import * as auth from './auth.mjs'
 import session from 'express-session';
 import * as dotenv from 'dotenv';
-import multer from 'multer';
 import cors from 'cors'; //cors--check later
 
 dotenv.config();
@@ -25,7 +24,6 @@ app.use(session({
     maxAge: 7*24*60*60*1000 //week
 }))
 
-const upload = multer({ dest: "uploads/" });
 //----------------------------------------Signup and Login------------------------------------------------//
 app.get('/signup',(req,res)=>{
     res.sendFile(path.join(__dirname, '/public/signup.html'));
@@ -135,22 +133,20 @@ app.post('/api/save-search', async (req,res)=>{
 });
 
 //----------------------------------------feedback save on DB --------------------------------------------------------//
-//Reference on uploading image files
-//https://blog.logrocket.com/multer-nodejs-express-upload-file/
-app.post('/api/save-feedback',upload.array("images"),async(req,res)=>{
+app.post('/api/save-feedback',async (req,res)=>{
     if (!auth.loginSession){
         res.status(401).json({success:false, message: "Not Authenticated"});
         res.end();
         return;
     }
     try{
-        const {category,comment} = req.body;
-        const filesMap = req.files.map((file)=>{
-            return file.filename;
-        });
-        console.log(req.session.user);
-        const feedback = await Feedback.create({category,comment,userid:req.session.user._id ,images:filesMap})
-        res.json({ data: feedback.toJSON(),success: true, message: "Successfully uploaded files" });
+        // const {category,comment} = req.body;
+        const feedback = await Feedback.create({category:req.body.category,
+            comment:req.body.comment,
+            location:req.body.location,
+            pathData: req.body.pathData,
+            userid:req.session.user._id})
+        res.json({ data: feedback.toJSON(),success: true, message: "Successfully uploaded comment" });
     }
     catch(err){
         res.status(500).json({success:false, error: "Please Login to Report Issues"});

@@ -138,18 +138,14 @@ google.maps.event.addListener(map,'idle', async function(){
 });
 }
 async function initializeMap(){
-    console.log("called main");
     const response = await fetch('/api/recent');
     const {success, data} = await response.json();
-    console.log("data",success,data);
     if (success){
         const searchContainerEl = document.getElementById("map-container");
         data.forEach((search,index)=>{
             rendermap(search.userlat,search.userlng,index);
             const searchEl = document.createElement("div");
             searchEl.innerHTML=`
-            <p>${search.userlat}</p>
-            <p>${search.userlng}</p>
             <p>${search.address}</p>
             <p>${search.time}</p>
             `

@@ -154,21 +154,38 @@ body{
   z-index: 1000;
   background-color: var(--bgcolor);
   width:100px;
-  min-height:100px;
+  min-height:150px;
   position:absolute;
-  box-shadow:0px 3px 15px rgba(0, 0, 0, 0.3)
+  box-shadow:0px 3px 15px rgba(0, 0, 0, 0.3);
+  border-radius: 1rem;
+}
+
+#menu-welcome{
+  margin-top:5px;
+  margin-left:5px;
 }
 
 .recent-searches{
+  margin-top:15px;
   cursor:pointer;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
+  margin-left: 5px;
+}
+
+.recent-searches:hover{
+  color: var(--lgreen);
 }
 
 .logout{
   cursor:pointer;
-  margin-top: 5px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  margin-left:5px;
 }
 
+.logout:hover{
+  color:var(--lgreen);
+}
 .parkingstatus-red{
   color: red;
 }
@@ -218,6 +235,7 @@ body{
   height: 75%;
   border-radius: 1rem;
   padding: 2.5rem;
+  min-height: 35rem;
 }
 
 .feedbackform-form{
@@ -225,7 +243,84 @@ body{
   height:100%;
   display: flex;
   flex-direction: column;
+  padding-top: 5%;
 }
+
+.feedbackform-categorybox{
+  margin-top: 20px;
+  margin-bottom: 35px;
+}
+
+.feedbackform-commentbox{
+  margin-bottom: 50px;
+}
+
+.feedbackform-locationbox{
+  margin-bottom: 50px;
+}
+
+.feedbackform label{
+  margin-left:10px;
+  margin-top:2px;
+  font-weight: bold;
+}
+.feedbackform legend{
+  font-size: 1.4rem;
+  margin-bottom:10px;
+}
+.feedbackform select{
+  background-color: #c7f4dd;
+  border-radius: 0.7rem;
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-bottom: 10px;
+  width:100%;
+}
+.feedbackform textarea{
+  background-color: #c7f4dd;
+  border-radius: 0.7rem;
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-bottom: 10px;
+  width:100%;
+}
+
+.feedbackform .number{
+	background: var(--lgreen);
+	color: #fff;
+	height: 30px;
+	width: 30px;
+	display: inline-block;
+	font-size: 0.8em;
+	margin-right: 4px;
+	line-height: 30px;
+	text-align: center;
+	text-shadow: 0 1px 0 rgba(255,255,255,0.2);
+	border-radius: 15px 15px 15px 0px;
+}
+
+.feedbackform button{
+	position: relative;
+	display: block;
+	padding: 19px 39px 18px 39px;
+	color: #FFF;
+	margin: 0 auto;
+	background: var(--lgreen);
+  border-radius: 2rem;
+	font-size: 18px;
+	text-align: center;
+	font-style: normal;
+	width: 100%;
+	border: 1px solid var(--lgreen);
+	border-width: 1px 1px 3px;
+	margin-bottom: 10px;
+}
+
+.feedbackform button:hover{
+  cursor: pointer;
+  background-color: var(--green);
+}
+
 
 .issue{
   margin-top: 30px;

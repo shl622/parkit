@@ -20,7 +20,8 @@ const FeedbackSchema = new Schema({
   userid: {type : Schema.Types.ObjectId, ref: 'User'},
   category: {type:String},
   comment : {type:String},
-  images: [{type:String}]
+  location : {type: String},
+  pathData : {type:Array}
 }, {
   timestamps: true
 });

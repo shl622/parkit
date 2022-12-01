@@ -15,7 +15,6 @@ const parseCookie = () =>
 async function main(){
     const authResponse = await fetch("/api/checkauth");
     const authData = await authResponse.json();
-    console.log(authData);
     const hiddenMenu = document.querySelector(".menu");
     const authState = {
         isAuth: false,
@@ -26,11 +25,9 @@ async function main(){
         if (parseCookie().username){
             authState.username = parseCookie().username;
         } 
-        console.log(hiddenMenu);
-        console.log(authState);
         hiddenMenu.innerHTML = `
         <div class="username">
-        <h2> Welcome, ${authState.username} </h2>
+        <h2 id="menu-welcome"> Welcome  ${authState.username} </h2>
         </div>
         <div class="recent-searches">
            <a href="/recent"><h5>Recent Searches</h5></a>
@@ -40,16 +37,13 @@ async function main(){
         </div>
         `
         const logout= document.querySelector(".logout");
-        console.log(logout);
         if (logout){
             logout.onclick = async (event)=>{
                 event.stopPropagation();
-                console.log("clickedLogout");
                 const logoutResponse = await fetch("/api/logout", {
                     method:"POST"
                 });
                 const logoutSuccess = await logoutResponse.json();
-                console.log("logout",logoutSuccess);
                 if (logoutSuccess){
                     window.location.reload();
                 }

@@ -128,9 +128,9 @@
                         </svg>
                         <div class="hidden menu">
                             <div>
-                                <h2>Guest</h2>
+                                <h2 id="menu-welcome">Guest</h2>
                             </div>
-                            <div>
+                            <div class="logout">
                                 <a href="/login">Login</a>
                             </div>
                         </div>
@@ -143,15 +143,22 @@
             <div id="feedbackform" class="feedbackform hidden">
                 <div class="feedbackform-inner">
                     <form class="feedbackform-form">
-                    <h4 id="feedbackform-address"></h4>
-                    <label>Category</label>
-                    <select name="category" id="feedbackform-category">
-                      <option value="outdated">Outdated info</option>
-                      <option value="event">Unexpected closing</option>
-                    </select>
-                    <label>Comments:</label>
-                    <textarea id="feedbackform-comment" name="comment" placeholder="Comment here..."></textarea>
-                    <input id="feedbackform-image" name="image" type="file" multiple accept="image/*"/>
+                    <div class="feedbackform-categorybox">
+                    <legend><span class="number">1</span><label>Category</label></legend>
+                        <select name="category" id="feedbackform-category">
+                            <option value="" disabled selected hidden>Choose a Category...</option>
+                            <option value="Outdated Information">Outdated Information</option>
+                            <option value="Unexpected Event">Unexpected Closing</option>
+                        </select>
+                    </div>
+                    <div class ="feedbackform-locationbox">
+                        <legend><span class="number">2</span><label>Location</label></legend>
+                        <textarea id="feedbackform-location" name="location" placeholder="Tell us briefly about the location or provide the street name..."></textarea>
+                    </div>
+                    <div class="feedbackform-commentbox">
+                        <legend><span class="number">3</span><label>Comment</label></legend>
+                        <textarea id="feedbackform-comment" name="comment" placeholder="Tell us more about the issue here..."></textarea>
+                    </div>
                     <button type="submit">Submit</button>
                     </form>
                     </div>

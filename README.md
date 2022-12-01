@@ -40,23 +40,32 @@ An Example User:
 ```javascript
 {
   username: "username"
+  email : "email"
   password: "password"
-  list: "data"
 }
 ```
 
-An Example Data:
+An Example Search:
 
 ```javascript
 {
   address: "address"
-  time: "time-searched"
-  userid: "username"
+  time: "timestamp"
+  userid: "username._id"
   userlat: "user coordinate latitutde"
   userlng: "user coordinate longitude"
 }
 ```
+An Example Feedback:
 
+```javascript
+{
+  userid: "username._id"
+  category: "category"
+  comment : "comment"
+  time: "timestamp"
+}
+```
 
 ## [Link to Commented First Draft Schema](db.mjs) 
 
@@ -123,3 +132,11 @@ Recent search Page
 1. [OpenCurb NYC API](http://www.opencurb.nyc/doc.html) 
 2. [Google Maps Javascript API](https://developers.google.com/maps/documentation/javascript/overview)
 3. [CSS Reset Cleanup](https://github.com/elad2412/the-new-css-reset)
+
+
+## Possible Future Improvements
+
+1. More Transparent Data : Opencurb API does not provide the most straightforward documentation for using its data and their data is pulled from several sources, hence it is hard to check the validity unless user himself/herself checks and reports
+2. User-shareable Data: Currently allows user to report issues via form and stores in database, but I can't target the exact polyline of the map as it keeps overwriting data every time an event such as zoom-in, zoom-out happens so rendering this user-supplied data on each infoWindow is arbitrary at the moment. Current implementation serves functionality for developers as the stored data has GeoCode.
+3. Front End Visuals : Overall design and visuals could be improved and code can be refactored to be clearer if using a front-end library
+4. GPS : Could use GPS or location services to locate user on the map and center the map based on user's location. Currently defaulted to NYU/Washington Square Park area

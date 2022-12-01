@@ -39,7 +39,7 @@ function main(){
                     },
                     //cors--check later
                     withCredentials: true,
-                    crednetials: 'include',
+                    credentials: 'include',
                     body: JSON.stringify(signupformState)
                 });
                 const data = await response.json();

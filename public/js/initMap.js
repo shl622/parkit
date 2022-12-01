@@ -12,7 +12,6 @@ async function saveSearch(search) {
       body: JSON.stringify(search)
     });
     const data = await response.json();
-    console.log(data);
   }catch(err){
     console.log(err.message);
   }
@@ -119,9 +118,11 @@ function initMap() {
       let parkingStatus = feature.properties.rule_simplified;
       let additionalRule = feature.properties.addtl_info_parking_rule;
       const color = checkStatus(parkingStatus);
+      let devPath = [];
       let path = feature.geometry.coordinates.map(geometry=>{     
         return {lng: geometry[0], lat: geometry[1]};
       });
+      devPath.push(path);
       const parkPath = new google.maps.Polyline({
         path: path,
         geodesic: true,
@@ -132,34 +133,38 @@ function initMap() {
       parkPath.setMap(map);
       //base case content of infowindow
       let infoWindow = new google.maps.InfoWindow();
-      let uniqueId = Date.now().toString(36) + Math.random().toString(36).substring(2);
-      const feedbackformid= `feedbackform-${uniqueId}`;
       const feedbackformEl = document.getElementById("feedbackform");
       const feedbackforminnerEl = document.querySelector(".feedbackform-inner");
-      const feedbackformaddressEl = document.getElementById("feedbackform-address");
-      feedbackformaddressEl.textContent = `${feature.properties.main_street}/${feature.properties.cross_streets}`
       //once feedback changed
       feedbackformEl.onsubmit = async (event) =>{
         event.preventDefault();
+        const feedbackformState = {
+          category:"",
+          comment:"",
+          location: "",
+          pathData: []
+        };
         const category = document.getElementById("feedbackform-category");
         const comment = document.getElementById("feedbackform-comment");
-        const images = document.getElementById("feedbackform-image");
-        const formdata = new FormData();
-        formdata.append("category", category.value);
-        formdata.append("comment", comment.value);
-        for (let i=0; i<images.files.length; i++){
-          formdata.append("images", images.files[i]);
-        }
+        const location = document.getElementById("feedbackform-location");
+        feedbackformState.category= category.value;
+        feedbackformState.comment = comment.value;
+        feedbackformState.pathData = devPath[0];
+        feedbackformState.location = location.value;
         try{
           const response = await fetch("/api/save-feedback",{
             method: "POST",
-            body: formdata,
+            headers: {
+              "Content-Type":"application/json",
+            },
+            body: JSON.stringify(feedbackformState),
           });
           const data = await response.json();
-          console.log(data);
+          feedbackformEl.classList.add("hidden"); 
           if(!data.success){
             alert(data.error);
           }
+          //look here if submit form doesn't work
           const content = `
         <div class ="overlay">
         <header>
@@ -252,8 +257,6 @@ function initMap() {
           center = map.getCenter();
           ne = bounds.getNorthEast();
           sw = bounds.getSouthWest();
-          console.log("lat",center.lat());
-          console.log("lng",center.lng());
           drawData(await getCurbData(center.lat(),center.lng(),ne.lat(),ne.lng(),sw.lat(),sw.lng()));
       }
       if(!this.get('dragging')){
@@ -304,12 +307,9 @@ function initMap() {
 
     // For each place, get the icon, name and location.
     const bounds = new google.maps.LatLngBounds();
-    console.log("bounds",bounds);
 
     firstplace.forEach((place) => {
       saveSearch({address:input.value, userlat: place.geometry.location.lat(), userlng: place.geometry.location.lng()});
-      console.log("searchlat",place.geometry.location.lat());
-      console.log("searchlng",place.geometry.location.lng());
       if (!place.geometry || !place.geometry.location) {
         console.log("Returned place contains no geometry");
         return;
