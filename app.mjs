@@ -56,7 +56,6 @@ app.get('/welcome',(req,res)=>{
 });
 
 app.get('/login',(req,res)=>{
-    console.log("sesion",req.session);
     if (auth.loginSession(req.session)){
         res.cookie("username",req.session.user.username,{maxAge:604800});
         res.cookie("email",req.session.user.email,{maxAge:604800});
@@ -69,7 +68,6 @@ app.get('/login',(req,res)=>{
 
 app.get('/api/checkauth', (req,res)=>{
     if (req.session.user){
-        //console.log("session un",req.session.user.username);
         res.cookie("username",req.session.user.username,{maxAge:604800});
         res.cookie("email",req.session.user.email,{maxAge:604800});
         res.json({success:true});
@@ -82,7 +80,6 @@ app.get('/api/checkauth', (req,res)=>{
 
 app.post('/api/login', async (req,res)=>{
     function success(user) {
-        console.log("user",user);
         auth.startAuthenticatedSession(req, user, (err)=>{
             if(!err){
                 res.cookie("username",user.username,{maxAge:604800});
@@ -166,7 +163,6 @@ app.get('/api/recent',async(req,res)=>{
     }
     try{
         const recentSearch = await Search.find({"userid": req.session.user._id}).sort({time: -1}).limit(3);
-        console.log("searches",recentSearch);
         res.status(200).json({success:true, data: recentSearch})
     }catch(err){
         res.status(500).json({success:false, data: []});

@@ -18,7 +18,6 @@ function main(){
         signupformInputEls.forEach((input,index)=>{
             input.oninput = (event) => {
                 signupformState[event.target.name] = event.target.value;
-                console.log(signupformState);
             }
         });
         signupformEl.onsubmit = async (event)=>{
@@ -47,6 +46,10 @@ function main(){
                 if (data.success){
                     window.location.href = "/welcome"
                 }
+                else if (data.success===false && signupformState.username.length>=6){
+                    const duplicateUsername = document.getElementById("duplicateUser");
+                    duplicateUsername.classList.remove("hidden");
+                }
             }catch(err){
                 console.log(err.message);
             }
@@ -56,7 +59,6 @@ function main(){
         loginformInputEls.forEach((input,index)=>{
             input.oninput = (event) =>{
                 loginformState[event.target.name] = event.target.value;
-                console.log(loginformState);
             }
         });
         loginformEl.onsubmit = async (event) =>{
@@ -74,7 +76,6 @@ function main(){
                 body: JSON.stringify(loginformState)
             });
             const data = await response.json();
-            console.log(data);
             if (data.success){
                 window.location.href = "/"
             }

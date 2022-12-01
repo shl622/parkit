@@ -122,7 +122,9 @@ function initMap() {
       let path = feature.geometry.coordinates.map(geometry=>{     
         return {lng: geometry[0], lat: geometry[1]};
       });
-      devPath.push(path);
+      while (devPath.length < 5){
+        devPath.push(path);
+      }
       const parkPath = new google.maps.Polyline({
         path: path,
         geodesic: true,
