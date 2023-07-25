@@ -2,11 +2,11 @@
   "name": "final-project-shl622",
   "version": "1.0.0",
   "description": "## Overview",
-  "main": "index.js",
+  "main": "api/index.js",
   "type":"module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node api/index.js"
   },
   "repository": {
     "type": "git",
