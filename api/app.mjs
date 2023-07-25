@@ -26,7 +26,7 @@ app.use(session({
 
 //----------------------------------------Signup and Login------------------------------------------------//
 app.get('/signup',(req,res)=>{
-    res.sendFile(path.join(__dirname, '../public/signup.html'));
+    res.sendFile('/signup.html');
 });
 
 app.post('/signup', (req,res)=>{
@@ -52,7 +52,7 @@ app.post('/signup', (req,res)=>{
 });
 
 app.get('/welcome',(req,res)=>{
-    res.sendFile(path.join(__dirname,'../public/welcome.html'));
+    res.sendFile('/welcome.html');
 });
 
 app.get('/login',(req,res)=>{
