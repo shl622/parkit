@@ -3,7 +3,7 @@ import path from 'path';
 import { User, Search, Feedback} from './db.js';
 import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
-import * as auth from './auth.mjs'
+import * as auth from './auth.js'
 import session from 'express-session';
 import * as dotenv from 'dotenv';
 import cors from 'cors'; //cors--check later
