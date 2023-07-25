@@ -17,12 +17,12 @@ const __dirname = path.dirname(__filename);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({ origin: true, credentials: true })); //cors--check later
-app.use(session({
-    secret: process.env.sessionSecret,
-    resave: false,
-    saveUninitialized: true,
-    maxAge: 7*24*60*60*1000 //week
-}))
+// app.use(session({
+//     secret: process.env.sessionSecret,
+//     resave: false,
+//     saveUninitialized: true,
+//     maxAge: 7*24*60*60*1000 //week
+// }))
 
 //----------------------------------------Signup and Login------------------------------------------------//
 app.get('/signup',(req,res)=>{
