@@ -30,25 +30,26 @@ app.get('/signup',(req,res)=>{
 });
 
 app.post('/api/signup', (req,res)=>{
-    console.log(req.body);
-    function success(newUser){
-        auth.startAuthenticatedSession(req, newUser, (err)=>{
-            if (!err){
-                res.cookie("username",newUser.username,{maxAge:604800});
-                res.cookie("email",newUser.email,{maxAge:604800});
-                res.cookie("auth","true",{maxAge:604800, httpOnly:true});
-                res.json({newUser,success: true});
-            }else{
-                res.json({newUser, success: false});
-                console.log(err.message);
-            }
-        });
-    }
-    function error(err) {
-        res.json({newUser: {}, success: false});
-    }
+    res.json({"test succeed":"success"});
+    // console.log(req.body);
+    // function success(newUser){
+    //     auth.startAuthenticatedSession(req, newUser, (err)=>{
+    //         if (!err){
+    //             res.cookie("username",newUser.username,{maxAge:604800});
+    //             res.cookie("email",newUser.email,{maxAge:604800});
+    //             res.cookie("auth","true",{maxAge:604800, httpOnly:true});
+    //             res.json({newUser,success: true});
+    //         }else{
+    //             res.json({newUser, success: false});
+    //             console.log(err.message);
+    //         }
+    //     });
+    // }
+    // function error(err) {
+    //     res.json({newUser: {}, success: false});
+    // }
 
-    auth.register(req.body.username, req.body.email, req.body.password, error, success);
+//     auth.register(req.body.username, req.body.email, req.body.password, error, success);
 });
 
 app.get('/welcome',(req,res)=>{
