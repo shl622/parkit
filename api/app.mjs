@@ -13,7 +13,7 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use(express.static(path.join(__dirname, '../public')));
+// app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({ origin: true, credentials: true })); //cors--check later
@@ -26,7 +26,7 @@ app.use(session({
 
 //----------------------------------------Signup and Login------------------------------------------------//
 app.get('/signup',(req,res)=>{
-    res.sendFile('/signup.html');
+    res.sendFile(path.join(__dirname,'/signup.html'));
 });
 
 app.post('/signup', (req,res)=>{
