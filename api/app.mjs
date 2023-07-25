@@ -13,7 +13,7 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({ origin: true, credentials: true })); //cors--check later
@@ -26,7 +26,7 @@ app.use(session({
 
 //----------------------------------------Signup and Login------------------------------------------------//
 app.get('/signup',(req,res)=>{
-    res.sendFile(path.join(__dirname, '/public/signup.html'));
+    res.sendFile(path.join(__dirname, '../public/signup.html'));
 });
 
 app.post('/signup', (req,res)=>{
@@ -52,7 +52,7 @@ app.post('/signup', (req,res)=>{
 });
 
 app.get('/welcome',(req,res)=>{
-    res.sendFile(path.join(__dirname,'/public/welcome.html'));
+    res.sendFile(path.join(__dirname,'../public/welcome.html'));
 });
 
 app.get('/login',(req,res)=>{
@@ -62,7 +62,7 @@ app.get('/login',(req,res)=>{
         res.redirect('/'); //might be problem
     }
     else{
-        res.sendFile(path.join(__dirname, '/public/login.html'));
+        res.sendFile(path.join(__dirname, '../public/login.html'));
     }
 });
 
@@ -153,7 +153,7 @@ app.post('/api/save-feedback',async (req,res)=>{
 
 //----------------------------------------Recent Search --------------------------------------------------------//
 app.get('/recent', (req,res)=>{
-    res.sendFile(path.join(__dirname, '/public/recent.html'));
+    res.sendFile(path.join(__dirname, '../public/recent.html'));
 });
 app.get('/api/recent',async(req,res)=>{
     if (!req.session.user){
