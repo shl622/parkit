@@ -2,10 +2,11 @@
   "name": "final-project-shl622",
   "version": "1.0.0",
   "description": "## Overview",
-  "main": "app.mjs",
+  "main": "index.js",
+  "type":"module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.mjs --ignore public/"
+    "start": "nodemon indexmjs --ignore public/"
   },
   "repository": {
     "type": "git",

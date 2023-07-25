@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import { Search, User } from './db.mjs';
+import { Search, User } from './db.js';
 
 const startAuthenticatedSession = (req, user, cb) => {
     req.session.regenerate((err)=>{

@@ -1,6 +1,6 @@
 import express from 'express';
 import path from 'path';
-import { User, Search, Feedback} from './db.mjs';
+import { User, Search, Feedback} from './db.js';
 import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
 import * as auth from './auth.mjs'
