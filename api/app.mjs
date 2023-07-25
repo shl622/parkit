@@ -29,7 +29,7 @@ app.get('/signup',(req,res)=>{
     res.sendFile(path.join(__dirname,'/signup.html'));
 });
 
-app.post('/signup', (req,res)=>{
+app.post('/api/signup', (req,res)=>{
     console.log(req.body);
     function success(newUser){
         auth.startAuthenticatedSession(req, newUser, (err)=>{
