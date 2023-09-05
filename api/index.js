@@ -175,7 +175,7 @@ app.get('/api/recent',async(req,res)=>{
 //----------------------------------------app listener --------------------------------------------------------//
 async function runApp(){
     try{
-     await mongoose.connect(process.env.mongoURI);
+    //  await mongoose.connect(process.env.mongoURI);
      app.listen(process.env.PORT || 3000,()=>{
         console.log(`Server listening`)});
     }catch(err){
