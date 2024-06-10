@@ -9,9 +9,6 @@ Parkit! is a web app that will allow users to search street parking rules for ea
 ** The parking regulation data is currently (December 2022~) strictly limited to Manhattan area and will not display any regulations outside this area.
 
 
-## Deployment
-The application was deployed via Heroku- visit [here](https://parkitapp.herokuapp.com/)<br/>
-
 ## Build Notes
 <details>
 <summary>Click here</summary>
@@ -119,29 +116,6 @@ Recent search Page
 4. As a user, I can access a list of recent searches and access them again.
 5. As a user, I can add comments to each parking limits data in case they are faulty.
 
-## Research Topics
-
-* (3 points) dotenv
-  * use dotenv to store credentials for mongoURI
-  * use dotenv to store session Secret
-  * added dotenv configs to heroku dashboard settings/gitignore for remote repo
-* (5 points) OpenCurb API
-  * use opencurb.nyc API to poll in NYC Street Parking Data
-  * (~11/08/22) Successful in fetching data with different lat,long values and radius
-
-    `http://www.opencurb.nyc/search.php?coord=${lat},${long}&v_type=PASSENGER&a_type=PARK&meter=2&radius=${radius}&StartDate=${fulldate}&StartTime=06:25&EndDate=${fulldate}&EndTime=07:25&action_allowed=1`
-  * v_type limited to PASSENGER as app intended for passenger vehicles only (excluding commercial or load/pickups)
-  * radius maintained at 50 meters for standard and loads flexibly to changing parameters
-* (5 points) Google Maps API
-    * Google Maps API to render map and fetch coordinate Data
-    * (~11/08/22) Heavily Reviewed [official document and tutorials](https://developers.google.com/maps/documentation/javascript/overview)
-    * Need to implement Maps to keep radius in 50 meters to coordinate with Opencurb API data, which has strict base of 50 meter radius for polling in parking data.
-    
-
-13 points total out of 8 required points 
-
-
-## [Link to Initial Main Project File](app.mjs) 
 
 ## Annotations / References Used
 
