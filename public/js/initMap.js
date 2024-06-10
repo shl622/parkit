@@ -87,6 +87,7 @@ function initMap() {
   //function to check the status of each street parking rules
   //use regexr: https://regexr.com/ to select time from fetched data
   function checkStatus(status){
+    console.log("checkStatus running");
     //base case when no parking is allowed anytime
     if (status==="No Parking Anytime"){
       return "red";
@@ -114,6 +115,7 @@ function initMap() {
   }
 
   function drawData(data){
+    console.log("drawing");
     data.features.forEach((feature,index)=>{
       let parkingStatus = feature.properties.rule_simplified;
       let additionalRule = feature.properties.addtl_info_parking_rule;

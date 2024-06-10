@@ -30,7 +30,7 @@ app.use(session({
 // });
 
 app.get('/signup',(req,res)=>{
-    res.sendFile(path.join(__dirname,'/signup.html'));
+    res.sendFile(path.join(__dirname,'../public','/signup.html'));
 });
 
 app.post('/api/signup', (req,res)=>{
@@ -178,12 +178,15 @@ app.get('/api/recent',async(req,res)=>{
 
 //----------------------------------------app listener --------------------------------------------------------//
 async function runApp(){
+    let uri = process.env.mongoURI;
+    uri = uri.replace('?','%3f');
+    mongoose.set('strictQuery', false);
     try{
-     await mongoose.connect(process.env.mongoURI);
+     await mongoose.connect(uri);
      app.listen(process.env.PORT || 3000,()=>{
         console.log(`Server listening`)});
     }catch(err){
-     console.log(err.message);
+        console.log(err.message);
     }
  }
  
